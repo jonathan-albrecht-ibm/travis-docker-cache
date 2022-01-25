@@ -1,0 +1,37 @@
+sudo: required
+dist: bionic
+language: generic
+
+# services:
+#   - docker
+
+# cache:
+#   directories:
+#     - docker_files
+
+jobs:
+  include:
+    - stage: "Build Images in Parallel"
+      name: "Docker Save 01"
+      script: echo "fake image 01" | tee > fake_image_01
+      workspaces:
+        create:
+          name: ws01
+          paths:
+            - fake_image_01
+    - script: echo "fake image 02" | tee > fake_image_02
+      name: "Docker Save 02"
+      workspaces:
+        create:
+          name: ws02
+          paths:
+            - fake_image_02
+    - stage: "Docker Load All"
+      language: minimal
+      git:
+        clone: false
+      workspaces:
+        use:
+          - ws01
+          - ws02
+      script: ls -1 ; cat fake_image_01 ; cat fake_image_02
