@@ -1,6 +1,9 @@
 sudo: required
 dist: bionic
 language: generic
+arch: 
+  - s390x
+os: linux
 
 # services:
 #   - docker
@@ -34,4 +37,6 @@ jobs:
         use:
           - ws01
           - ws02
-      script: ls -1 ; cat fake_image_01 ; cat fake_image_02
+      script:
+        - find . -name 'fake_image_*'
+        - find . -name 'fake_image_*' -print0 | xargs -0 tail -n+1
