@@ -4,8 +4,6 @@ language: generic
 
 job:
   include:
-    - arch: amd64
-      env: TYPE=VM
     - arch: s390x
       env: TYPE=LXD
 
@@ -14,6 +12,6 @@ services:
 
 script:
   - arch
-  - docker run -t ubuntu:18.04 bash -c 'ls -l /'
-  - docker run --privileged -t ubuntu:18.04 bash -c 'ls -l /'
+  - docker run -t docker:18.04-dind bash -c 'docker image list'
+  - docker run --privileged -t docker:18.04-dind bash -c 'docker image list'
   - docker ps -a
