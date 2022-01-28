@@ -33,5 +33,5 @@ script:
   - mkdir -p $HOME/.kube $HOME/.minikube
   - touch $KUBECONFIG
   - docker info
-  - minikube start --profile=minikube --vm-driver=docker --alsologtostderr --v=2 --extra-config=kubelet.cgroup-driver=cgroupfs --extra-config=kubeadm.ignore-preflight-errors=SystemVerification
+  - minikube start --base-image=kicbase/stable:v0.0.29 --profile=minikube --vm-driver=docker --alsologtostderr --v=2 --extra-config=kubelet.cgroup-driver=cgroupfs --extra-config=kubeadm.ignore-preflight-errors=SystemVerification
 
