@@ -30,4 +30,4 @@ script:
   - mkdir -p $HOME/.kube $HOME/.minikube
   - touch $KUBECONFIG
   - docker info
-  - sudo minikube start --profile=minikube --vm-driver=none --alsologtostderr --v=2 --extra-config=kubelet.cgroup-driver=cgroupfs --extra-config=kubeadm.ignore-preflight-errors=all
+  - sudo minikube start --profile=minikube --vm-driver=none --alsologtostderr --v=2 --extra-config=kubelet.cgroup-driver=cgroupfs --extra-config=kubeadm.ignore-preflight-errors=SystemVerification
