@@ -20,6 +20,7 @@ services:
 
 script:
   - arch
+  - id
   - docker run -t -v /var/run/docker.sock:/var/run/docker.sock docker:18.04-dind sh -c 'docker image list'
   - docker run --privileged -t -v /var/run/docker.sock:/var/run/docker.sock docker:18.04-dind sh -c 'docker image list'
   - docker ps -a
@@ -32,6 +33,4 @@ script:
   - touch $KUBECONFIG
   - docker info
   - minikube start --profile=minikube --vm-driver=docker --alsologtostderr --v=2 --extra-config=kubelet.cgroup-driver=cgroupfs --extra-config=kubeadm.ignore-preflight-errors=SystemVerification || true
-  - kubectl get pods --all-namespaces
-  - sudo journalctl -xeu kubelet
 
