@@ -1,42 +1,21 @@
 sudo: required
 dist: bionic
 language: generic
-arch: 
-  - s390x
-os: linux
 
-# services:
-#   - docker
-
-# cache:
-#   directories:
-#     - docker_files
-
-jobs:
+job:
   include:
-    - stage: "Build Images in Parallel"
-      name: "Docker Save 01"
-      script: echo "fake image 01" | tee > fake_image_01
-      workspaces:
-        create:
-          name: ws01
-          paths:
-            - fake_image_01
-    - script: echo "fake image 02" | tee > fake_image_02
-      name: "Docker Save 02"
-      workspaces:
-        create:
-          name: ws02
-          paths:
-            - fake_image_02
-    - stage: "Docker Load All"
-      language: minimal
-      git:
-        clone: false
-      workspaces:
-        use:
-          - ws01
-          - ws02
-      script:
-        - find . -name 'fake_image_*'
-        - find . -name 'fake_image_*' -print0 | xargs -0 tail -n+1
+    - arch: amd64
+      env: TYPE=VM
+    - arch: s390x
+      env: TYPE=LXD
+    - os: linux-s390x
+      env: TYPE=VM
+
+services:
+  - docker
+
+script:
+  - arch
+  - docker run -t ubuntu:18.04 bash -c 'ls -l /'
+  - docker run --privileged -t ubuntu:18.04 bash -c 'ls -l /'
+  - docker ps -a
