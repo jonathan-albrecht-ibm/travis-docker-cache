@@ -21,6 +21,7 @@ services:
 script:
   - arch
   - id
+  - df -T
   - sudo cat /etc/docker/daemon.json
   - sudo apt-get update
   - sudo apt-get install wget curl conntrack git make jq
@@ -42,4 +43,4 @@ script:
   - docker image list
   - minikube start --base-image=local/kicbase:userns-updates-v1.25.1 --profile=minikube --vm-driver=docker --alsologtostderr --v=2 --extra-config=kubelet.cgroup-driver=systemd --extra-config=kubeadm.ignore-preflight-errors=SystemVerification || true
   - docker ps -a | grep kube | grep -v pause
-  - systemctl status kubelet
+  - docker logs minikube
