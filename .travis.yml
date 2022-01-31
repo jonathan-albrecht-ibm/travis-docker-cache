@@ -27,7 +27,7 @@ script:
   - sudo swapoff -a
   - sudo mkdir -p /etc/docker
   - sudo touch /etc/docker/daemon.json
-  - jq '. += {"exec-opts":["native.cgroupdriver=systemd"]}' /etc/docker/daemon.json > tmpjson && sudo mv tmpjson /etc/docker/daemon.json && rm tmpjson
+  - jq '. += {"exec-opts":["native.cgroupdriver=systemd"]}' /etc/docker/daemon.json > tmpjson && sudo mv tmpjson /etc/docker/daemon.json
   - sudo cat /etc/docker/daemon.json
   - sudo systemctl restart docker
   - docker run -t -v /var/run/docker.sock:/var/run/docker.sock docker:18.04-dind sh -c 'docker image list'
@@ -40,4 +40,6 @@ script:
   - docker info
   - git clone https://github.com/jonathan-albrecht-ibm/minikube && cd minikube && git switch kicbase-userns-updates-v1.25.1  && docker build -t local/kicbase:userns-updates-v1.25.1 -f ./deploy/kicbase/Dockerfile . && cd ../
   - docker image list
-  - minikube start --base-image=local/kicbase:userns-updates-v1.25.1 --profile=minikube --vm-driver=docker --alsologtostderr --v=2 --extra-config=kubelet.cgroup-driver=systemd --extra-config=kubeadm.ignore-preflight-errors=SystemVerification
+  - minikube start --base-image=local/kicbase:userns-updates-v1.25.1 --profile=minikube --vm-driver=docker --alsologtostderr --v=2 --extra-config=kubelet.cgroup-driver=systemd --extra-config=kubeadm.ignore-preflight-errors=SystemVerification || true
+  - docker ps -a | grep kube | grep -v pause
+  - systemctl status kubelet
