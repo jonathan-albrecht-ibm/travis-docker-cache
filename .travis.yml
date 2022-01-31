@@ -44,3 +44,5 @@ script:
   - minikube start --base-image=local/kicbase:userns-updates-v1.25.1 --profile=minikube --vm-driver=docker --alsologtostderr --v=2 --extra-config=kubelet.cgroup-driver=systemd --extra-config=kubeadm.ignore-preflight-errors=SystemVerification || true
   - docker ps -a | grep kube | grep -v pause
   - docker logs minikube
+  - docker exec minikube systemctl status kubelet
+  - docker exec minikube journalctl -xeu kubelet
