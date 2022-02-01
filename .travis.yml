@@ -22,7 +22,11 @@ script:
   - arch
   - id
   - df -T
+  - sysctl -n kernel.pid_max ; sysctl -n user.max_user_namespaces 
   - sudo cat /etc/docker/daemon.json
+  - sudo cat /proc/self/uid_map
+  - sudo systemctl status docker
+  - sudo cat /lib/systemd/system/docker.service
   - sudo apt-get update
   - sudo apt-get install wget curl conntrack git make jq
   - sudo swapoff -a
@@ -38,6 +42,10 @@ script:
   - docker image list
   - minikube start --base-image=local/kicbase:userns-updates-v1.25.1 --profile=minikube --vm-driver=docker --alsologtostderr --v=2 --extra-config=kubelet.cgroup-driver=cgroupfs --extra-config=kubelet.feature-gates=KubeletInUserNamespace=true --extra-config=kubeadm.ignore-preflight-errors=SystemVerification || true
   - docker ps -a | grep kube | grep -v pause
-  - docker logs minikube
-  - docker exec minikube systemctl status kubelet
-  - docker exec minikube journalctl -xeu kubelet
+#  - docker logs minikube
+  - docker exec minikube systemctl status docker
+  - docker exec minikube cat /lib/systemd/system/docker.service
+  - docker exec minikube cat /proc/self/uid_map
+  - docker exec minikube cat /var/log/messages
+#  - docker exec minikube systemctl status kubelet
+#  - docker exec minikube journalctl -xeu kubelet
