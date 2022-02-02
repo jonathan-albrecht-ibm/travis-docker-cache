@@ -25,9 +25,12 @@ script:
   - sudo cat /proc/meminfo
   - sudo cat /proc/cpuinfo
   - sysctl -n kernel.pid_max ; sysctl -n user.max_user_namespaces 
+  - sudo systemctl disable apparmor
+  - sudo systemctl restart docker.service
   - sudo cat /etc/docker/daemon.json
   - sudo cat /proc/self/uid_map
   - sudo systemctl status docker
+  - sudo docker info
   - sudo cat /lib/systemd/system/docker.service
   - sudo apt-get update
   - sudo apt-get install wget curl conntrack git make jq
