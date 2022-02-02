@@ -39,7 +39,6 @@ script:
   - mkdir -p $HOME/.kube $HOME/.minikube
   - touch $KUBECONFIG
   - docker info
-  - git clone https://github.com/jonathan-albrecht-ibm/minikube && cd minikube && git switch kicbase-userns-updates-v1.25.1  && docker build -t local/kicbase:userns-updates-v1.25.1 -f ./deploy/kicbase/Dockerfile . && cd ../
   - docker image list
   - minikube start --profile=minikube --vm-driver=none --alsologtostderr --v=2 --extra-config=kubelet.cgroup-driver=cgroupfs --extra-config=kubelet.feature-gates=KubeletInUserNamespace=true,LocalStorageCapacityIsolation=false --extra-config=kubeadm.feature-gates=KubeletInUserNamespace=true,LocalStorageCapacityIsolation=false --extra-config=apiserver.feature-gates=KubeletInUserNamespace=true,LocalStorageCapacityIsolation=false --extra-config=controller-manager.feature-gates=KubeletInUserNamespace=true,LocalStorageCapacityIsolation=false --extra-config=scheduler.feature-gates=KubeletInUserNamespace=true,LocalStorageCapacityIsolation=false --extra-config=kubeadm.ignore-preflight-errors=SystemVerification || true
   - docker ps -a | grep kube | grep -v pause
