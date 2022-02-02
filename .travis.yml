@@ -22,6 +22,8 @@ script:
   - arch
   - id
   - df -T
+  - sudo cat /proc/meminfo
+  - sudo cat /proc/cpuinfo
   - sysctl -n kernel.pid_max ; sysctl -n user.max_user_namespaces 
   - sudo cat /etc/docker/daemon.json
   - sudo cat /proc/self/uid_map
